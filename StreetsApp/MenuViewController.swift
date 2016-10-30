@@ -22,16 +22,25 @@ class MenuViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        //Set Blur Effect (вызываем написанную ниже функцию для разных view)
+        addBlurEffectF(backgroundMaskView, style:.Dark)
+        addBlurEffectF(headerView, style:.Dark)
+        addBlurEffectF(buttonView, style:.Dark)
+        
+    }
+    // пишем функцию
+    func addBlurEffectF(view: UIView, style: UIBlurEffectStyle) {
+        
         // отчищаем   view для примеменения blurEffect
-        backgroundMaskView.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clearColor()
         // создадим переменную и задамим ей стиль
-        let blurEffect = UIBlurEffect(style: .Dark)
+        let blurEffect = UIBlurEffect(style: style)
         // создадим следующею констатнту и применяем к ней эффект (ту переменную что создали выше)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         //??
-        blurEffectView.frame = backgroundMaskView.bounds
+        blurEffectView.frame = view.bounds
         //устанавливаем во view блюрэффект
-        backgroundMaskView.insertSubview(blurEffectView, atIndex: 0)
+        view.insertSubview(blurEffectView, atIndex: 0)
     }
 
 

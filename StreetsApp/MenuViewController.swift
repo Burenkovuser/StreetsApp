@@ -16,6 +16,10 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var UserView: UIView!
     @IBOutlet weak var dialogView: UIView!
     
+    var animator: UIDynamicAnimator!
+    var attachmentBahavior: UIAttachmentBehavior!
+    var snapBehavior: UISnapBehavior!
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
         // эффект масштабирования через стандартную функцию (увеличение)
@@ -44,9 +48,44 @@ class MenuViewController: UIViewController {
         addBlurEffectF(headerView, style:.Dark)
         addBlurEffectF(buttonView, style:.Dark)
         
-   
+        animator = UIDynamicAnimator(referenceView: view)
+        snapBehavior = UISnapBehavior(item: dialogView, snapToPoint: view.center)
         
     }
+    
+    // обрабатываем перемещение элемента
+    @IBAction func handelRecognizer(sender: AnyObject) {
+        
+        let myView = dialogView
+        let location = sender.locationInView(view)
+        let boxLocation = sender.locationInView(dialogView)
+       
+        
+        if sender.state == UIGestureRecognizerState.Began {
+            animator.removeBehavior(snapBehavior)
+            
+            let centerOffset = UIOffsetMake(boxLocation.x - CGRectGetMidX(myView.bounds), boxLocation.y - CGRectGetMidY(myView.bounds))
+            attachmentBahavior = UIAttachmentBehavior(item: myView, offsetFromCenter: centerOffset, attachedToAnchor: location)
+            attachmentBahavior.frequency = 0
+            
+            animator.addBehavior(attachmentBahavior)
+            
+            UIView.animateWithDuration(0.5, animations: { 
+                self.UserView.frame = CGRectMake(73, 485, 230, 55)
+                }
+            )
+        }
+        else if sender.state == UIGestureRecognizerState.Changed {
+            attachmentBahavior.anchorPoint = location
+        }
+        else if sender.state == UIGestureRecognizerState.Ended {
+            animator.removeBehavior(attachmentBahavior)
+            
+            snapBehavior = UISnapBehavior(item: myView, snapToPoint: view.center)
+            animator.addBehavior(snapBehavior)
+        }
+    }
+    
     // пишем функцию
     func addBlurEffectF(view: UIView, style: UIBlurEffectStyle) {
         

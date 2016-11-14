@@ -10,11 +10,12 @@ import UIKit
 
 class MenuViewController: UIViewController {
     
-    @IBOutlet weak var backgroundMaskView: UIView!
+    @IBOutlet weak var backgrounMaskView: UIView!
     @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var buttonView: UIView!
-    @IBOutlet weak var UserView: UIView!
+    @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var userView: UIView!
     @IBOutlet weak var dialogView: UIView!
+    
     
     var animator: UIDynamicAnimator!
     var attachmentBahavior: UIAttachmentBehavior!
@@ -44,9 +45,11 @@ class MenuViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         //Set Blur Effect (вызываем написанную ниже функцию для разных view)
-        addBlurEffectF(backgroundMaskView, style:.Dark)
+        addBlurEffectF(backgrounMaskView, style: .Dark)
+        //addBlurEffectF(backgroundMaskView, style:.Dark)
         addBlurEffectF(headerView, style:.Dark)
-        addBlurEffectF(buttonView, style:.Dark)
+        addBlurEffectF(bottomView, style: .Dark)
+        
         
         animator = UIDynamicAnimator(referenceView: view)
         snapBehavior = UISnapBehavior(item: dialogView, snapToPoint: view.center)
@@ -71,7 +74,7 @@ class MenuViewController: UIViewController {
             animator.addBehavior(attachmentBahavior)
             
             UIView.animateWithDuration(0.5, animations: { 
-                self.UserView.frame = CGRectMake(73, 485, 230, 55)
+                self.userView.frame = CGRectMake(73, 485, 230, 55)
                 }
             )
         }
